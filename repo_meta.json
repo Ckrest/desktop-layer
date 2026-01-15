@@ -1,0 +1,7 @@
+{
+  "name": "desktop-layer",
+  "description": "Clickable desktop surface for wlroots compositors with right-click menu and click-to-unfocus.",
+  "topics": ["python", "wayland", "gtk", "desktop", "linux", "wayfire", "layer-shell"],
+  "private": false,
+  "homepage": ""
+}

@@ -1,0 +1,36 @@
+{
+  "menu_items": [
+    {
+      "label": "Open Terminal",
+      "command": "kitty",
+      "icon": "utilities-terminal"
+    },
+    {
+      "label": "File Manager",
+      "command": "thunar",
+      "icon": "system-file-manager"
+    },
+    {"separator": true},
+    {
+      "label": "App Launcher",
+      "command": "wofi --show drun",
+      "icon": "view-grid-symbolic"
+    },
+    {"separator": true},
+    {
+      "label": "Settings",
+      "submenu": [
+        {
+          "label": "Compositor Config",
+          "command": "wcm",
+          "icon": "preferences-system"
+        },
+        {
+          "label": "Display Settings",
+          "command": "wdisplays",
+          "icon": "preferences-desktop-display"
+        }
+      ]
+    }
+  ]
+}
