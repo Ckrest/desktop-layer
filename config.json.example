@@ -1,14 +1,19 @@
 {
   "menu_items": [
     {
-      "label": "Open Terminal",
-      "command": "kitty",
+      "label": "Terminal",
+      "command": "x-terminal-emulator",
       "icon": "utilities-terminal"
     },
     {
       "label": "File Manager",
-      "command": "thunar",
+      "command": "xdg-open ~",
       "icon": "system-file-manager"
+    },
+    {
+      "label": "Web Browser",
+      "command": "xdg-open https://",
+      "icon": "web-browser"
     },
     {"separator": true},
     {
@@ -18,10 +23,30 @@
     },
     {"separator": true},
     {
+      "label": "Tools",
+      "submenu": [
+        {
+          "label": "Screenshot",
+          "command": "grim -g \"$(slurp)\" ~/Pictures/screenshot.png",
+          "icon": "applets-screenshooter"
+        },
+        {
+          "label": "Color Picker",
+          "command": "gcolor3",
+          "icon": "color-select-symbolic"
+        },
+        {
+          "label": "System Monitor",
+          "command": "gnome-system-monitor",
+          "icon": "utilities-system-monitor"
+        }
+      ]
+    },
+    {
       "label": "Settings",
       "submenu": [
         {
-          "label": "Compositor Config",
+          "label": "Wayfire Config",
           "command": "wcm",
           "icon": "preferences-system"
         },
@@ -29,8 +54,19 @@
           "label": "Display Settings",
           "command": "wdisplays",
           "icon": "preferences-desktop-display"
+        },
+        {
+          "label": "Sound Settings",
+          "command": "pavucontrol",
+          "icon": "multimedia-volume-control"
         }
       ]
+    },
+    {"separator": true},
+    {
+      "label": "Power Menu",
+      "command": "wlogout",
+      "icon": "system-shutdown"
     }
   ]
 }

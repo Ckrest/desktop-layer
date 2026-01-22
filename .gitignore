@@ -1,14 +1,2 @@
-# Python
-__pycache__/
-*.py[cod]
-
-# Config (user-specific)
+# Personal configuration (copy config.example.json to config.json and customize)
 config.json
-
-# Editor/IDE
-.vscode/
-.idea/
-*.swp
-
-# OS
-.DS_Store

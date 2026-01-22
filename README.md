@@ -1,45 +1,85 @@
 # Desktop Layer
 
-> AI-assisted development with Claude
-
-A lightweight clickable desktop surface for wlroots-based Wayland compositors (Wayfire, Sway, Hyprland, etc.). Provides right-click context menus and click-to-unfocus functionality.
+A lightweight clickable desktop surface for Wayfire and other wlroots-based Wayland compositors.
 
 ## Features
 
-- **Click to Unfocus** - Left-click the desktop to unfocus all windows
-- **Context Menu** - Right-click shows a customizable menu
-- **Wayland Native** - Uses GtkLayerShell for proper layer-shell integration
-- **Configurable** - JSON configuration for menu items, icons, and commands
-- **Submenus** - Nested menu support for organizing options
+- **Click-to-unfocus**: Left-click anywhere on the desktop to unfocus the currently focused window
+- **Right-click menu**: Customizable context menu for quick access to applications and commands
+- **Layer-shell integration**: Sits on the BOTTOM layer (above wallpaper, below windows)
+- **Transparent**: Fully transparent surface that doesn't interfere with your wallpaper
+
+## Requirements
+
+### System Dependencies
+
+```bash
+# GTK3 and GObject introspection
+sudo apt install python3-gi gir1.2-gtk-3.0
+
+# GTK Layer Shell for Wayland
+sudo apt install gir1.2-gtklayershell-0.1
+```
+
+### Compositor Requirements
+
+Requires a Wayland compositor that supports the layer-shell protocol:
+- Wayfire
+- Sway
+- Hyprland
+- Other wlroots-based compositors
+
+**Note**: Will not work on X11 or compositors without layer-shell support.
 
 ## Installation
 
-Requires GTK3, GtkLayerShell, and PyGObject:
-
-```bash
-# Ubuntu/Debian
-sudo apt install python3-gi gir1.2-gtk-3.0 gir1.2-gtklayershell-0.1
-
-# Arch Linux
-sudo pacman -S python-gobject gtk3 gtk-layer-shell
-
-# Fedora
-sudo dnf install python3-gobject gtk3 gtk-layer-shell
-```
+1. Clone or copy this directory to your preferred location
+2. Copy the example config and customize it:
+   ```bash
+   cp config.json.example config.json
+   # Edit config.json with your preferred menu items
+   ```
+3. (Optional) Set up as a systemd service:
+   ```bash
+   # Edit desktop-layer.service to update the path to desktop-layer.py
+   # Then symlink to systemd
+   ln -s /path/to/desktop-layer.service ~/.config/systemd/user/
+   systemctl --user daemon-reload
+   systemctl --user enable desktop-layer
+   ```
 
 ## Usage
 
-```bash
-# Run with default config
-python desktop-layer.py
+### Manual Start
 
-# Run with custom config
-python desktop-layer.py /path/to/config.json
+```bash
+python3 desktop-layer.py
+```
+
+### With Custom Config
+
+```bash
+python3 desktop-layer.py /path/to/config.json
+```
+
+### As systemd Service
+
+```bash
+# Enable and start
+systemctl --user enable desktop-layer
+systemctl --user start desktop-layer
+
+# Check status
+systemctl --user status desktop-layer
 ```
 
 ## Configuration
 
-Copy `config.json.example` to `config.json` and customize:
+Copy `config.json.example` to `config.json` and customize it. The `config.json` file is gitignored so your personal menu won't be overwritten by updates.
+
+Changes require a service restart: `systemctl --user restart desktop-layer`
+
+### Config Structure
 
 ```json
 {
@@ -53,7 +93,11 @@ Copy `config.json.example` to `config.json` and customize:
     {
       "label": "Settings",
       "submenu": [
-        {"label": "Display", "command": "wdisplays"}
+        {
+          "label": "Display",
+          "command": "wdisplays",
+          "icon": "preferences-desktop-display"
+        }
       ]
     }
   ]
@@ -62,46 +106,49 @@ Copy `config.json.example` to `config.json` and customize:
 
 ### Menu Item Options
 
-- `label` - Display text
-- `command` - Shell command to execute
-- `icon` - Icon name (from system icon theme)
-- `separator` - Set to `true` for a separator line
-- `submenu` - Array of nested menu items
+| Field | Type | Description |
+|-------|------|-------------|
+| `label` | string | Display text for the menu item |
+| `command` | string | Shell command to execute |
+| `icon` | string | Icon name from system theme (optional) |
+| `separator` | boolean | Creates a separator line when `true` |
+| `submenu` | array | Nested array of menu items |
 
-## Running as a Service
+### Default Menu
 
-Create a systemd user service:
-
-```ini
-# ~/.config/systemd/user/desktop-layer.service
-[Unit]
-Description=Desktop Layer
-After=graphical-session.target
-
-[Service]
-ExecStart=/usr/bin/python3 /path/to/desktop-layer.py
-Restart=on-failure
-
-[Install]
-WantedBy=graphical-session.target
-```
-
-```bash
-systemctl --user enable --now desktop-layer
-```
+If no `config.json` exists, a default menu is provided with:
+- Terminal
+- File Manager
+- App Launcher
+- Settings submenu (Wayfire Config, Display Settings)
 
 ## How It Works
 
-Uses GtkLayerShell to create a fullscreen transparent window on the BOTTOM layer (above wallpaper, below windows). Mouse events are captured to:
-- Focus the desktop window (unfocusing everything else)
-- Show a popup menu at cursor position
+Desktop Layer creates an invisible GTK window using the layer-shell protocol, anchored to all screen edges on the BOTTOM layer. This places it above the wallpaper but below all application windows.
 
-## Built With
+- **Left-click**: The window takes keyboard focus, which automatically removes focus from other windows
+- **Right-click**: Displays the configured context menu at the cursor position
 
-- Python
-- GTK3
-- GtkLayerShell
+## Troubleshooting
+
+### Menu not appearing
+
+Check that GTK Layer Shell is installed:
+```bash
+python3 -c "import gi; gi.require_version('GtkLayerShell', '0.1')"
+```
+
+### GTK deprecation warnings
+
+Warnings about `Gtk.ImageMenuItem` are expected—this is GTK3 deprecation noise. The functionality works correctly.
+
+### Service won't start
+
+Check the logs:
+```bash
+journalctl --user -u desktop-layer -f
+```
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT

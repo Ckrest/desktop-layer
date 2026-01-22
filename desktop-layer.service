@@ -1,0 +1,17 @@
+[Unit]
+Description=Desktop Layer - Clickable desktop surface for right-click menu and window unfocus
+Documentation=file:///home/nick/Systems/desktop/desktop-layer/README.md
+After=graphical-session.target
+PartOf=graphical-session.target
+X-ProcessManager=true
+
+[Service]
+Type=simple
+# Use system libraries (avoid Wayfire's custom pixman)
+UnsetEnvironment=LD_LIBRARY_PATH
+ExecStart=/usr/bin/python3 /home/nick/Systems/desktop/desktop-layer/desktop-layer.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
