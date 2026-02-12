@@ -1,0 +1,17 @@
+[Unit]
+Description=Desktop Layer - Clickable desktop surface for right-click menu and window unfocus
+Documentation=file:///usr/share/doc/desktop-layer/README.md
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+# Working directory required for relative path resolution
+WorkingDirectory=-/var/lib/desktop-layer
+# Portable paths - package installs to site-packages
+ExecStart=/usr/bin/python3 -m desktop_layer.desktop_layer
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

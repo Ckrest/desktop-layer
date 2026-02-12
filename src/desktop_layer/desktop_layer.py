@@ -218,9 +218,9 @@ def main():
     signal.signal(signal.SIGTERM, lambda *_: Gtk.main_quit())
     signal.signal(signal.SIGINT, lambda *_: Gtk.main_quit())
 
-    # Determine config path
-    config_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(config_dir, 'config.json')
+    # Determine config path (config.json lives at package root, two levels up from src/desktop_layer/)
+    package_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    config_path = os.path.join(package_root, 'config.json')
 
     # Allow override via command line
     if len(sys.argv) > 1:

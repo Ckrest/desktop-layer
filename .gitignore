@@ -1,2 +1,17 @@
 # Personal configuration (copy config.example.json to config.json and customize)
 config.json
+
+# Published package requirements
+.env
+__pycache__/
+venv/
+.idea/
+.vscode/
+.DS_Store
+build/
+dist/
+*.log
+*.db
+*.sqlite3
+*.pkl
+*.pt

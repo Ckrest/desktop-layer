@@ -1,0 +1,3 @@
+# desktop-layer - systemd-service trait configuration
+
+service: desktop-layer

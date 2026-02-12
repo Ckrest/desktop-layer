@@ -1,0 +1,15 @@
+# desktop-layer
+name: desktop-layer
+description: Clickable desktop surface for right-click menu and window unfocus on
+  Wayfire
+state: ready
+traits:
+- systemd-service
+- published
+- gui
+- python
+tags:
+- Wayfire
+- Wayland
+- Python
+- Desktop Environment
