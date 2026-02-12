@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Desktop Layer
+Comment=Clickable desktop surface for right-click menu and window unfocus on Wayfire
+Exec=systemctl --user restart desktop-layer
+Icon=preferences-desktop-wallpaper
+Terminal=false
+Categories=Utility;DesktopSettings;
+NoDisplay=true
