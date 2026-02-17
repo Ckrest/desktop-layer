@@ -10,6 +10,7 @@ venv/
 .DS_Store
 build/
 dist/
+*.egg-info/
 *.log
 *.db
 *.sqlite3
