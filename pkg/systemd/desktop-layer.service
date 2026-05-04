@@ -6,6 +6,7 @@ PartOf=graphical-session.target
 
 [Service]
 Type=simple
+Slice=session-graphical.slice
 # Working directory required for relative path resolution
 WorkingDirectory=-/var/lib/desktop-layer
 # Portable paths - package installs to site-packages
